@@ -1,0 +1,95 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "{{cookiecutter.project_name}}"
+version = "0.0.1"
+description = "{{cookiecutter.description}}"
+authors = ["{{cookiecutter.author_name}} <f{{cookiecutter.email}}>"]
+readme = "README.md"
+packages = [
+  {include = "{{cookiecutter.repo_name}}"}
+]
+
+# Dependencies
+[tool.poetry.dependencies]
+python = "^3.8"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.0.241"
+pytest = "^7.1.2"
+black = "^22.3.0"
+pre-commit = "^2.19.0"
+isort = "^5.10.1"
+mypy = "^1.0.1"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^5.3.0"
+sphinx-autobuild = "^2021.3.14"
+myst-parser = "^0.18.1"
+furo = "^2022.12.7"
+ipykernel = "^6.21.2"
+nbsphinx = "^0.8.12"
+sphinx-autoapi = "^2.0.1"
+
+
+# Linters, formatters, etc.
+[tool.isort]
+profile = "black"
+line_length = 100
+
+[tool.black]
+line-length = 100
+preview = true # Breaks strings that exceed the line length
+
+[tool.ruff]
+# selected rules families
+select = [
+    "F", # pyflakes
+    "E", # pycodestyle - errors
+    "W", # pycodestyle - warnings
+    "B", # bugbear - potential bugs
+    "D", # pydocstyle - docstrings
+    "C4", # comprehensions
+    "SIM", # simplify
+    # "N", # naming
+    "S", # bandit - security rules
+    "G",
+]
+# if some rule is too strict, disable it here
+ignore = [
+    "B006", # mutable data structures as default arguments
+    "B905", # zip() without explicit strict= parameter
+    "D205", # 1 blank line required between summary line and description
+    "D100", # missing docstring in public module
+    "D104", # missing docstring in public package
+    "D105", # missing docstring in magic method
+    "D107", # missing __init__ docstring
+    "D417", # missing argument descriptions in the docstring
+]
+
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = ["A", "B", "C", "D", "E", "F"]
+unfixable = []
+
+# Same as Black.
+line-length = 100
+
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+# Assume Python 3.10.
+target-version = "py310"
+
+[tool.ruff.pydocstyle]
+# Use Google-style docstrings.
+convention = "google"
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402", "F401"]
+"main.py" = ["B008"]
+
+[tool.ruff.mccabe]
+# Unlike Flake8, default to a complexity level of 10.
+max-complexity = 10

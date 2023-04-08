@@ -1,0 +1,48 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: check-yaml
+        args: [--unsafe]
+      - id: check-toml
+  - repo: local
+    hooks:
+      - id: isort
+        name: Sorting import statements
+        entry: bash -c 'isort "$@"; git add -u' --
+        language: python
+        args: ["--sp=./pyproject.toml"]
+        files: \.py$
+      - id: black
+        name: Black Python code formatting
+        entry: bash -c 'black "$@"; git add -u' --
+        language: python
+        types: [python]
+        args: ["--config=./pyproject.toml"]
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    # Ruff version.
+    rev: 'v0.0.241'
+    hooks:
+      - id: ruff
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.77.1
+    hooks:
+      - id: terraform_fmt
+        files: ^terraform/
+      - id: terraform_validate
+        files: ^terraform/
+      - id: terraform_tflint
+        name: install tflint plugins
+        args:
+          - --args=--init
+          - --args=--config=__GIT_WORKING_DIR__/terraform/.tflint.hcl
+      - id: terraform_tflint
+        files: ^terraform/
+        args:
+          - --args=--config=__GIT_WORKING_DIR__/terraform/.tflint.hcl
