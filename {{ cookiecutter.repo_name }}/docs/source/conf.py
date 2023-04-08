@@ -8,7 +8,7 @@
 
 # Could be handled by cookiecutter
 project = "{{ cookiecutter.project_name }}"  # fill it with your own project name
-copyright = "{{ cookiecutter.year }}, {{ cookiecutter.author }}"
+copyright = "{% now 'utc', '%Y' %}, {{ cookiecutter.author }}"
 author = "{{ cookiecutter.author }}"
 # release = "0.0.1"
 
